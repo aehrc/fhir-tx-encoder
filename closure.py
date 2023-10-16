@@ -7,12 +7,14 @@ class Closure:
     """
     Builds a table with two columns: source and target. Each row indicates that the source code
     is subsumed by the target code.
+
+    The table is not kept in memory, this class simply returns the new entries. This is so that the
+    entries can be processed without holding the entire table in memory.
     """
 
     def __init__(self, tx_url: str):
         self._tx_url = tx_url
         self._name = self._initialize()
-        self._table = []
 
     def _initialize(self):
         name = uuid.uuid4().hex
@@ -36,7 +38,7 @@ class Closure:
         initialize_response.raise_for_status()
         return name
 
-    def update(self, codings: list[dict]) -> None:
+    def update(self, codings: list[dict]) -> list[(str, str)]:
         execution_request = {
             "resourceType": "Parameters",
             "parameter": [
@@ -68,7 +70,7 @@ class Closure:
         )
         execution_response.raise_for_status()
         concept_map = execution_response.json()
-        pairs: list[(str, str)] = (
+        return (
             [
                 (element["code"], target["code"])
                 for group in concept_map["group"]
@@ -79,8 +81,3 @@ class Closure:
             if "group" in concept_map
             else []
         )
-        pairs = pairs + [(coding["code"], coding["code"]) for coding in codings]
-        self._table += pairs
-
-    def to_array(self) -> list[(str, str)]:
-        return self._table
