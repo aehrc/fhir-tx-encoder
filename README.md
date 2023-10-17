@@ -30,7 +30,7 @@ encoder = FhirTerminologyEncoder(
 
 result = encoder.fit_transform(np.array([["399981008", "363346000"]]))
 print(f"result.shape: {result.shape}")
-print(f"result:\n{result.shape}")
+print(f"result:\n{result.toarray()}")
 ```
 
 Which would output:
