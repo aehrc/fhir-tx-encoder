@@ -52,5 +52,9 @@ result:
  [1. 1. 1. 1. 1. 1.]]
 ```
 
+## Important note
+
+This software is currently in alpha. It is not yet ready for production use.
+
 Copyright © 2023, Commonwealth Scientific and Industrial Research Organisation 
 (CSIRO) ABN 41 687 119 230.
