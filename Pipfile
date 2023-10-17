@@ -9,7 +9,6 @@ numpy = "*"
 pandas = "*"
 scipy = "*"
 scikit-learn = "*"
-datasets = "*"
 
 [dev-packages]
 

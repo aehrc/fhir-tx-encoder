@@ -8,7 +8,7 @@ class Closure:
     Builds a table with two columns: source and target. Each row indicates that the source code
     is subsumed by the target code.
 
-    The table is not kept in memory, this class simply returns the new entries. This is so that the
+    The table is not retained, this class simply returns the new entries. This is so that the
     entries can be processed without holding the entire table in memory.
     """
 

@@ -5,7 +5,7 @@ from scipy.sparse import csr_matrix, hstack, lil_matrix
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.preprocessing import OneHotEncoder
 
-from closure import Closure
+from .closure import Closure
 
 
 class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
@@ -25,10 +25,10 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
         print("Expansion complete")
 
         print("Generating one-hot encoding...", end=" ")
-        ohe = OneHotEncoder(categories=[self.categories_])
+        ohe = OneHotEncoder(categories=[self.codes_])
         # Use a lil_matrix as an intermediate representation that enables efficient updates.
         self._encoded = lil_matrix(
-            ohe.fit_transform(np.array(self.categories_).reshape(-1, 1))
+            ohe.fit_transform(np.array(self.codes_).reshape(-1, 1))
         )
         print(self._encoded.shape)
 
@@ -38,7 +38,7 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
 
         print("Applying transitive closure")
         self._apply_closure(coding_batches, tx_url)
-        print("Closure complete")
+        print(f"Encoding complete: {self._encoded.shape}")
 
         # Convert the final product back to a csr_matrix for efficient arithmetic operations.
         self._encoded = self._encoded.tocsr()
@@ -46,7 +46,8 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
     def _expand_scope(self, scope, tx_url, batch_size):
         offset = 0
         total = 0
-        self.categories_ = []
+        self.codes_ = []
+        self.displays_ = []
         coding_batches = []
         while offset <= total:
             response = requests.get(
@@ -55,15 +56,21 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
             )
             response.raise_for_status()
             response_json = response.json()
+            total = response_json["expansion"]["total"]
 
             print(
-                f"Expanding ({len(response_json['expansion']['contains'])} items, offset {offset})"
+                f"Expanding ({len(response_json['expansion']['contains'])} items, offset {offset}, total {total})"
             )
             codings = response_json["expansion"]["contains"]
             coding_batches.append(codings)
-            self.categories_.extend([coding["code"] for coding in codings])
+            self.codes_.extend([coding["code"] for coding in codings])
+            self.displays_.extend(
+                [
+                    (coding["display"] if "display" in coding else None)
+                    for coding in codings
+                ]
+            )
 
-            total = response_json["expansion"]["total"]
             offset += batch_size
         return coding_batches
 
