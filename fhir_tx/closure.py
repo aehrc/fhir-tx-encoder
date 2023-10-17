@@ -5,11 +5,11 @@ import requests
 
 class Closure:
     """
-    Builds a table with two columns: source and target. Each row indicates that the source code
-    is subsumed by the target code.
+    Uses a FHIR terminology server to incrementally build a transitive closure table that describes
+    subsumption relationships between codings.
 
     The table is not retained, this class simply returns the new entries. This is so that the
-    entries can be processed without holding the entire table in memory.
+    entries can be processed without ever having to hold the entire table in memory.
     """
 
     def __init__(self, tx_url: str):
@@ -17,7 +17,12 @@ class Closure:
         self._name = self._initialize()
 
     def _initialize(self):
+        # Create a unique name for the closure table, this is used in subsequent requests to tell
+        # the server which closure we would like to update.
         name = uuid.uuid4().hex
+
+        # The initialization request establishes the named closure table, ready for subsequent
+        # update requests.
         initialize_request = {
             "resourceType": "Parameters",
             "parameter": [
@@ -39,7 +44,9 @@ class Closure:
         return name
 
     def update(self, codings: list[dict]) -> list[(str, str)]:
-        execution_request = {
+        # The update request adds a batch of codings to the closure table and returns the new
+        # subsumption relationships.
+        update_request = {
             "resourceType": "Parameters",
             "parameter": [
                 {
@@ -60,16 +67,18 @@ class Closure:
                 ],
             ],
         }
-        execution_response = requests.post(
+        update_response = requests.post(
             f"{self._tx_url}/$closure",
-            json=execution_request,
+            json=update_request,
             headers={
                 "Content-Type": "application/fhir+json",
                 "Accept": "application/fhir+json",
             },
         )
-        execution_response.raise_for_status()
-        concept_map = execution_response.json()
+        update_response.raise_for_status()
+        concept_map = update_response.json()
+
+        # Convert the concept map into a list of tuples of source codes that subsume target codes.
         return (
             [
                 (element["code"], target["code"])

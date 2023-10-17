@@ -9,6 +9,9 @@ numpy = "*"
 pandas = "*"
 scipy = "*"
 scikit-learn = "*"
+plotly = "*"
+umap-learn = "*"
+pynndescent = "==0.5.8"
 
 [dev-packages]
 
