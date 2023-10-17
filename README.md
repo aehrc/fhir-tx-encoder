@@ -25,7 +25,7 @@ import numpy as np
 
 encoder = FhirTerminologyEncoder(
     scope="http://snomed.info/sct?fhir_vs=ecl/(%3C%3C%20404684003)",
-    tx_url="http://localhost:8081/fhir",
+    tx_url="http://localhost:8080/fhir",
 )
 
 result = encoder.fit_transform(np.array([["399981008", "363346000"]]))
