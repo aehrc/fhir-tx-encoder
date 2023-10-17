@@ -24,7 +24,7 @@ from fhir_tx_encoder import FhirTerminologyEncoder
 import numpy as np
 
 encoder = FhirTerminologyEncoder(
-    scope="http://snomed.info/sct?fhir_vs=ecl/(%3C%3C%20404684003)",
+    scope="http://snomed.info/sct?fhir_vs=ecl/(%3E%3E%20363346000)",
     tx_url="http://localhost:8080/fhir",
 )
 
