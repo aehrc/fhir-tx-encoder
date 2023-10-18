@@ -20,9 +20,17 @@ import numpy.typing as npt
 import requests
 from scipy.sparse import csr_matrix, hstack, lil_matrix
 from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.feature_extraction import DictVectorizer
 from sklearn.preprocessing import OneHotEncoder
 
 from .closure import Closure
+
+EXPANSION_PROPERTY_PREADOPT = (
+    "http://hl7.org/fhir/5.0/StructureDefinition/"
+    "extension-ValueSet.expansion.contains.property"
+)
+
+IGNORED_PROPERTIES = ["parent", "child"]
 
 
 class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
@@ -45,6 +53,7 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
         self,
         scope: str,
         tx_url: str = "https://tx.ontoserver.csiro.au/fhir",
+        properties: list[str] = None,
         batch_size: int = 50000,
     ):
         """
@@ -54,7 +63,7 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
             running queries
         """
         print(f"Expanding value set: {scope}")
-        coding_batches = self._expand_scope(scope, tx_url, batch_size)
+        coding_batches = self._expand_scope(scope, tx_url, properties, batch_size)
         print("Expansion complete")
 
         print("Generating one-hot encoding...", end=" ")
@@ -71,14 +80,23 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
         self._index = {value: index for index, value in enumerate(ohe.categories_[0])}
         print(f"{len(self._index)} items")
 
-        print("Applying transitive closure")
+        print("Applying transitive closure...")
         self._apply_closure(coding_batches, tx_url)
-        print(f"Encoding complete: {self._encoded.shape}")
+        print(f"Subsumption encoding complete: {self._encoded.shape}")
+
+        print("Encoding attributes...", end=" ")
+        dv = DictVectorizer()
+        encoded_attributes = dv.fit_transform(self.properties_)
+        self._encoded = hstack([self._encoded, encoded_attributes])
+        print(self._encoded.shape)
+
+        # Create a list of feature names that includes the codes and the attributes.
+        self.feature_names_ = self.codes_ + dv.feature_names_
 
         # Convert the final product back to a csr_matrix for efficient arithmetic operations.
         self._encoded = self._encoded.tocsr()
 
-    def _expand_scope(self, scope, tx_url, batch_size):
+    def _expand_scope(self, scope, tx_url, properties, batch_size):
         """
         Get the list of all codes in the scope.
         """
@@ -86,14 +104,22 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
         total = 0
         self.codes_ = []
         self.displays_ = []
+        self.properties_ = []
         coding_batches = []
 
         # Run an expand request with a count equal to the batch size, and iterate until we have
         # retrieved all codes.
         while offset <= total:
+            params = {
+                "url": scope,
+                "count": batch_size,
+                "offset": offset,
+            }
+            if properties is not None:
+                params["property"] = ",".join(properties)
             response = requests.get(
                 f"{tx_url}/ValueSet/$expand",
-                params={"url": scope, "count": batch_size, "offset": offset},
+                params=params,
             )
             response.raise_for_status()
             response_json = response.json()
@@ -118,6 +144,10 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
                     for coding in codings
                 ]
             )
+            if properties is not None:
+                self.properties_.extend(
+                    [properties_to_dict(coding) for coding in codings]
+                )
 
             # The offset of the next query is the current offset plus the batch size.
             offset += batch_size
@@ -171,3 +201,71 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
         Does nothing, but required for compatibility with scikit-learn pipelines.
         """
         return self
+
+
+def properties_to_dict(coding: dict):
+    try:
+        result = {}
+        if "property" in coding:
+            for property_element in coding["property"]:
+                code = property_element["code"]
+                if code not in IGNORED_PROPERTIES:
+                    value_key = next(k for k in coding.keys() if k.startswith("value"))
+                    result[code] = property_element[value_key]
+                    add_subproperties_to_dict(property_element, code, result)
+        elif "extension" in coding:
+            property_extensions = [
+                e
+                for e in coding["extension"]
+                if e["url"] == EXPANSION_PROPERTY_PREADOPT
+            ]
+            for property_extension in property_extensions:
+                code_extension = next(
+                    e for e in property_extension["extension"] if e["url"] == "code"
+                )
+                code = code_extension["valueCode"]
+                if code not in IGNORED_PROPERTIES:
+                    value_extension = next(
+                        (
+                            e
+                            for e in property_extension["extension"]
+                            if e["url"] == "value"
+                        ),
+                        None,
+                    )
+                    if value_extension is not None:
+                        value_key = next(
+                            k for k in value_extension.keys() if k.startswith("value")
+                        )
+                        result[code] = value_extension[value_key]
+                    add_subproperties_to_dict(property_extension, code, result)
+
+    except StopIteration:
+        return {}
+    return result
+
+
+def add_subproperties_to_dict(property_element: dict, code: str, result: dict):
+    if "extension" in property_element:
+        subproperty_extensions = [
+            e for e in property_element["extension"] if e["url"] == "subproperty"
+        ]
+        try:
+            for subproperty_extension in subproperty_extensions:
+                code_extension = next(
+                    e for e in subproperty_extension["extension"] if e["url"] == "code"
+                )
+                subcode = f"{code}.{code_extension['valueCode']}"
+                if subcode not in IGNORED_PROPERTIES:
+                    value_extension = next(
+                        e
+                        for e in subproperty_extension["extension"]
+                        if e["url"] == "value"
+                    )
+                    value_key = next(
+                        k for k in value_extension.keys() if k.startswith("value")
+                    )
+                    result[subcode] = value_extension[value_key]
+                    add_subproperties_to_dict(subproperty_extension, subcode, result)
+        except StopIteration:
+            return
