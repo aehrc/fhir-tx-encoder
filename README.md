@@ -3,7 +3,7 @@
 This is a [scikit-learn](https://scikit-learn.org/) compatible encoder that uses 
 a FHIR terminology server to encode ontological features.
 
-Currently it supports subsumption relationships only.
+It currently supports subsumption relationships and properties.
 
 You supply a scope in the form of a FHIR ValueSet URI, and a FHIR terminology
 endpoint.
