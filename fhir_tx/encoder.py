@@ -86,14 +86,14 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
         self._apply_closure(coding_batches, tx_url)
         print(f"Subsumption encoding complete: {self._encoded.shape}")
 
-        print("Encoding attributes...", end=" ")
-        dv = DictVectorizer()
-        encoded_attributes = dv.fit_transform(self.properties_)
-        self._encoded = hstack([self._encoded, encoded_attributes])
-        print(self._encoded.shape)
-
-        # Create a list of feature names that includes the codes and the attributes.
-        self.feature_names_ = self.codes_ + dv.feature_names_
+        self.feature_names_ = self.codes_
+        if properties is not None:
+            print("Encoding properties...", end=" ")
+            dv = DictVectorizer()
+            encoded_properties = dv.fit_transform(self.properties_)
+            self._encoded = hstack([self._encoded, encoded_properties])
+            print(self._encoded.shape)
+            self.feature_names_ = self.feature_names_ + dv.feature_names_
 
         # Convert the final product back to a csr_matrix for efficient arithmetic operations.
         self._encoded = self._encoded.tocsr()
