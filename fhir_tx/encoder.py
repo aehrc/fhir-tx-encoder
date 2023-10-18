@@ -59,8 +59,10 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
         """
         :param scope: A FHIR ValueSet URI that defines the scope of the codes to be encoded.
         :param tx_url: A FHIR terminology server endpoint.
+        :param properties: A list of properties to include in the encoding. A single value of "*"
+            will include all properties.
         :param batch_size: The number of codes to send to the terminology server at a time when
-            running queries
+            running queries.
         """
         print(f"Expanding value set: {scope}")
         coding_batches = self._expand_scope(scope, tx_url, properties, batch_size)
@@ -115,8 +117,14 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
                 "count": batch_size,
                 "offset": offset,
             }
+            params = [
+                ("url", scope),
+                ("count", batch_size),
+                ("offset", offset),
+            ]
             if properties is not None:
-                params["property"] = ",".join(properties)
+                for p in properties:
+                    params.append(("property", p))
             response = requests.get(
                 f"{tx_url}/ValueSet/$expand",
                 params=params,
