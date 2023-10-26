@@ -17,12 +17,15 @@
 
 from setuptools import setup
 
+with open("README.md") as f:
+    long_description = f.read()
+
 setup(
     name="fhir_tx_encoder",
     version="1.0.0",
     description="Tools for encoding FHIR terminology concepts for machine learning",
-    long_description="Tools for encoding FHIR terminology concepts for machine learning",
-    long_description_content_type="text/plain",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     author="Australian e-Health Research Centre, CSIRO",
     author_email="ontoserver-support@csiro.au",
     license="Apache 2.0",
