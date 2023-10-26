@@ -19,7 +19,7 @@ from setuptools import setup
 
 setup(
     name="fhir_tx_encoder",
-    version="0.0.1",
+    version="1.0.0",
     description="Tools for encoding FHIR terminology concepts for machine learning",
     author="Australian e-Health Research Centre, CSIRO",
     author_email="ontoserver-support@csiro.au",

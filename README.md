@@ -14,7 +14,7 @@ for input into most models and estimators.
 ## Installation
 
 ```bash
-pip install 'fhir-tx-encoder @ git+https://github.com/aehrc/fhir-tx-encoder@main'
+pip install fhir-tx-encoder
 ```
 
 ## Usage
