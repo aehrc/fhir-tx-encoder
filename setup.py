@@ -22,6 +22,7 @@ setup(
     version="1.0.0",
     description="Tools for encoding FHIR terminology concepts for machine learning",
     long_description="Tools for encoding FHIR terminology concepts for machine learning",
+    long_description_content_type="text/plain",
     author="Australian e-Health Research Centre, CSIRO",
     author_email="ontoserver-support@csiro.au",
     license="Apache 2.0",
