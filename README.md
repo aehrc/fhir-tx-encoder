@@ -20,7 +20,7 @@ pip install fhir-tx-encoder
 ## Usage
 
 ```python
-from fhir_tx_encoder import FhirTerminologyEncoder
+from fhir_tx import FhirTerminologyEncoder
 import numpy as np
 
 encoder = FhirTerminologyEncoder(
