@@ -22,7 +22,7 @@ with open("README.md") as f:
 
 setup(
     name="fhir_tx_encoder",
-    version="1.0.1",
+    version="1.0.2",
     description="Tools for encoding FHIR terminology concepts for machine learning",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -31,10 +31,11 @@ setup(
     license="Apache 2.0",
     packages=["fhir_tx"],
     install_requires=[
-        "numpy",
-        "pandas",
-        "scipy",
-        "requests",
-        "scikit-learn",
+        "numpy~=1.26.0",
+        "pandas~=2.1.2",
+        "scipy~=1.11.3",
+        "requests~=2.31.0",
+        "scikit-learn~=1.3.2",
     ],
+    python_requires=">=3.9",
 )
