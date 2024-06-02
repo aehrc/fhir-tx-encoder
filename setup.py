@@ -22,7 +22,7 @@ with open("README.md") as f:
 
 setup(
     name="fhir_tx_encoder",
-    version="1.0.2",
+    version="1.1.0",
     description="Tools for encoding FHIR terminology concepts for machine learning",
     long_description=long_description,
     long_description_content_type="text/markdown",
