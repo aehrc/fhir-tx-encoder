@@ -53,12 +53,14 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
         self,
         scope: str,
         tx_url: str = "https://tx.ontoserver.csiro.au/fhir",
+        subsumption: bool = True,
         properties: list[str] = None,
         batch_size: int = 50000,
     ):
         """
         :param scope: A FHIR ValueSet URI that defines the scope of the codes to be encoded.
         :param tx_url: A FHIR terminology server endpoint.
+        :param subsumption: Whether to include subsumption relationships in the encoding.
         :param properties: A list of properties to include in the encoding. A single value of "*"
             will include all properties.
         :param batch_size: The number of codes to send to the terminology server at a time when
@@ -76,15 +78,16 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
         )
         print(self._encoded.shape)
 
-        # Create an index of code -> index, which we use to update the correct row and column in the
-        # matrix when making subsumption updates.
+        # Create an index of code -> index, which we use to update the correct row and column in
+        # the matrix when making subsumption updates.
         print("Creating index...", end=" ")
         self._index = {value: index for index, value in enumerate(ohe.categories_[0])}
         print(f"{len(self._index)} items")
 
-        print("Applying transitive closure...")
-        self._apply_closure(coding_batches, tx_url)
-        print(f"Subsumption encoding complete: {self._encoded.shape}")
+        if subsumption:
+            print("Applying transitive closure...")
+            self._apply_closure(coding_batches, tx_url)
+            print(f"Subsumption encoding complete: {self._encoded.shape}")
 
         self.feature_names_ = self.codes_
         if properties is not None:
