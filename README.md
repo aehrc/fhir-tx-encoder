@@ -33,7 +33,7 @@ encoder = FhirTerminologyEncoder(
 # Encode two SNOMED CT concepts:
 # - "Neoplasm and/or hamartoma" (399981008)
 # - "Malignant neoplastic disease" (363346000)
-result = encoder.fit_transform(np.array([["399981008", "363346000"]]))
+result = encoder.fit_transform(np.array([["399981008"], ["363346000"]]))
 
 # Print out the result and its shape.
 print(f"result.shape: {result.shape}")
