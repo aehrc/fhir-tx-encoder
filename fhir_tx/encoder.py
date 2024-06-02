@@ -201,7 +201,7 @@ class FhirTerminologyEncoder(BaseEstimator, TransformerMixin):
         if len(X.shape) != 2:
             raise ValueError("X must be a two-dimensional array")
 
-        stacked = hstack([self.transform_column(x) for x in X])
+        stacked = hstack([self.transform_column(X[:, y]) for y in range(X.shape[1])])
         return stacked
 
     def fit(self, X, y=None):
