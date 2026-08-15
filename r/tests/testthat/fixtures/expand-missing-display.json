@@ -1,0 +1,54 @@
+{
+  "resourceType": "ValueSet",
+  "url": "http://snomed.info/sct/32506021000036107/version/20260731?fhir_vs=ecl%2F%28%3E%3E+363346000%29",
+  "name": "SNOMED CT ECL expression",
+  "status": "active",
+  "experimental": false,
+  "expansion": {
+    "identifier": "urn:uuid:3c5d6e7f-8a9b-4c0d-8e1f-2a3b4c5d6e7f",
+    "timestamp": "2026-08-15T20:28:38+10:00",
+    "total": 6,
+    "offset": 0,
+    "parameter": [
+      {
+        "name": "offset",
+        "valueInteger": 0
+      },
+      {
+        "name": "count",
+        "valueInteger": 50000
+      }
+    ],
+    "contains": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "404684003",
+        "display": "Clinical finding"
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "64572001",
+        "display": "Disease"
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "363346000",
+        "display": "Malignant neoplastic disease"
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "399981008",
+        "display": "Neoplasm and/or hamartoma"
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "55342001"
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "138875005",
+        "display": "SNOMED CT Concept"
+      }
+    ]
+  }
+}

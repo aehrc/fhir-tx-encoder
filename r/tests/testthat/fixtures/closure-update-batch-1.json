@@ -1,0 +1,57 @@
+{
+  "resourceType": "ConceptMap",
+  "version": "2",
+  "name": "0f3b1c2d4e5f6a7b8c9d0e1f2a3b4c5d",
+  "status": "active",
+  "experimental": false,
+  "date": "2026-08-15T20:29:00+10:00",
+  "group": [
+    {
+      "source": "http://snomed.info/sct",
+      "sourceVersion": "http://snomed.info/sct/32506021000036107/version/20260731",
+      "target": "http://snomed.info/sct",
+      "targetVersion": "http://snomed.info/sct/32506021000036107/version/20260731",
+      "element": [
+        {
+          "code": "64572001",
+          "target": [
+            {
+              "code": "404684003",
+              "equivalence": "subsumes"
+            }
+          ]
+        },
+        {
+          "code": "399981008",
+          "target": [
+            {
+              "code": "64572001",
+              "equivalence": "subsumes"
+            },
+            {
+              "code": "404684003",
+              "equivalence": "subsumes"
+            }
+          ]
+        },
+        {
+          "code": "363346000",
+          "target": [
+            {
+              "code": "399981008",
+              "equivalence": "subsumes"
+            },
+            {
+              "code": "64572001",
+              "equivalence": "subsumes"
+            },
+            {
+              "code": "404684003",
+              "equivalence": "subsumes"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

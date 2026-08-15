@@ -1,0 +1,23 @@
+{
+  "resourceType": "ValueSet",
+  "url": "http://snomed.info/sct/32506021000036107/version/20260731?fhir_vs=ecl%2F%28%3C%3C+404684003+MINUS+%3C%3C+404684003%29",
+  "name": "SNOMED CT ECL expression",
+  "status": "active",
+  "experimental": false,
+  "expansion": {
+    "identifier": "urn:uuid:6a7b8c9d-0e1f-4a2b-9c3d-4e5f6a7b8c9d",
+    "timestamp": "2026-08-15T20:28:38+10:00",
+    "total": 0,
+    "offset": 0,
+    "parameter": [
+      {
+        "name": "offset",
+        "valueInteger": 0
+      },
+      {
+        "name": "count",
+        "valueInteger": 50000
+      }
+    ]
+  }
+}
