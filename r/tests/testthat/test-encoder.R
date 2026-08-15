@@ -70,6 +70,29 @@ test_that("construction produces the documented identity plus subsumption matrix
   expect_equal(as.matrix(encoder$encoded), expected_encoding())
 })
 
+test_that("a repeated closure pair still sets its cell to 1, not a count", {
+  # Arrange - a closure response that reports the same (399981008, 404684003)
+  # pair three times, twice within one group and once in a second group, and
+  # reports 363346000 as subsuming itself, which collides with the identity
+  # cell. Servers are free to return either; the encoding must stay multi-hot.
+  encoder <- suppressMessages(with_fixture_api(
+    fhir_tx_encoder(scope = test_scope, tx_url = test_tx_url),
+    expand = "expand-single-page",
+    closure_update = "closure-update-duplicates"
+  ))
+
+  # Assert - the repeated pair and the self-pair are both exactly 1. Building
+  # the matrix from triplets without deduplicating them would sum the
+  # duplicates, giving 3 and 2 respectively.
+  cell <- function(source, target) {
+    encoder$encoded[encoder$index[[source]], encoder$index[[target]]]
+  }
+  expect_equal(cell("399981008", "404684003"), 1)
+  expect_equal(cell("363346000", "363346000"), 1)
+  # Nothing anywhere in the encoding may exceed 1.
+  expect_equal(max(encoder$encoded), 1)
+})
+
 test_that("construction records codes, displays, feature names, index and scope", {
   # Arrange / Act
   encoder <- build_test_encoder()

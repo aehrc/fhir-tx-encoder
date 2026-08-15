@@ -93,6 +93,7 @@ it contributes no feature - only its subproperties do.
 | `closure-update-batch-1.json` | New pairs from adding concepts 1-4 only (6 pairs), for use with the two-page expansion. |
 | `closure-update-batch-2.json` | New pairs from then adding concepts 5-6 (9 pairs). Batches 1 and 2 together give the same 15 pairs as `closure-update.json`. |
 | `closure-update-no-group.json` | An update response with no `group` at all, which must contribute zero pairs. |
+| `closure-update-duplicates.json` | Reports the pair `(399981008, 404684003)` three times - twice in one group, once in a second - and reports `363346000` as subsuming itself, colliding with the identity cell. The encoding must stay multi-hot, so both cells must be exactly 1. `Matrix::sparseMatrix()` sums duplicate triplets, so this is what catches a missing deduplication step. |
 
 ### Pair orientation
 

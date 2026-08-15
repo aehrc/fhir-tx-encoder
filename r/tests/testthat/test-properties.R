@@ -393,9 +393,22 @@ test_that("no properties at all yields a matrix with one row per concept and no 
 })
 
 test_that("feature names are sorted in byte order rather than the user's locale", {
-  # Arrange - under the en_AU (and en_US) collation R sorts these as
-  # "_x=1", "a=1", "Z=1"; scikit-learn's DictVectorizer sorts by code point,
-  # giving "Z=1", "_x=1", "a=1". A locale-collated sort therefore fails here.
+  # Arrange - testthat runs tests under LC_COLLATE=C, where a locale-collated
+  # sort and a byte-order sort agree, so the test would pass either way. Switch
+  # to a collation that disagrees: under en_AU, R sorts these as "_x=1", "a=1",
+  # "Z=1", whereas scikit-learn's DictVectorizer sorts by code point, giving
+  # "Z=1", "_x=1", "a=1".
+  skip_if_not(
+    identical(
+      suppressWarnings(withr::with_locale(
+        c(LC_COLLATE = "en_AU.UTF-8"),
+        sort(c("Z", "_x", "a"))
+      )),
+      c("_x", "a", "Z")
+    ),
+    "en_AU.UTF-8 collation is unavailable"
+  )
+  withr::local_locale(c(LC_COLLATE = "en_AU.UTF-8"))
   lists <- list(list(Z = "1", "_x" = "1", a = "1"))
 
   # Act
