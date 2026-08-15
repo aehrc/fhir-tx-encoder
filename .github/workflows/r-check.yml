@@ -84,11 +84,16 @@ jobs:
 
       # Results are printed to the job log. There is no external coverage
       # service; read the per-file table in the step output.
+      #
+      # `covr::zero_coverage()` is deliberately avoided: it calls
+      # `rstudioapi::isAvailable()` to decide whether to open the source marker
+      # pane, and rstudioapi is not installed on the runner.
       - name: Report coverage
         run: |
           coverage <- covr::package_coverage("r", quiet = FALSE)
           print(coverage)
-          uncovered <- covr::zero_coverage(coverage)
+          tally <- covr::tally_coverage(coverage)
+          uncovered <- tally[tally$value == 0, c("filename", "line")]
           if (nrow(uncovered) > 0) {
             print(uncovered)
             stop(sprintf("%d uncovered line(s)", nrow(uncovered)))
