@@ -1,0 +1,35 @@
+Package: fhirtxencoder
+Type: Package
+Title: Encode Terminology Codes Using a FHIR Terminology Server
+Version: 1.0.0
+Authors@R: c(
+    person("John", "Grimes", email = "John.Grimes@csiro.au",
+           role = c("aut", "cre")),
+    person("Commonwealth Scientific and Industrial Research Organisation (CSIRO)",
+           role = c("cph", "fnd")))
+Description: Encodes terminology codes, such as SNOMED CT, into sparse
+    multi-hot feature vectors suitable for use as machine learning features.
+    The scope of the encoding is given as a FHIR ValueSet URI, which is
+    expanded by a FHIR terminology server. Each code is represented by a row
+    that carries the code itself, every concept within the scope that subsumes
+    it, and optionally the concept properties reported by the server. A
+    'recipes' step is provided for use within tidymodels pipelines.
+License: Apache License (== 2.0)
+Language: en-GB
+URL: https://github.com/aehrc/fhir-tx-encoder
+BugReports: https://github.com/aehrc/fhir-tx-encoder/issues
+Depends:
+    R (>= 4.1)
+Imports:
+    httr2,
+    jsonlite,
+    Matrix
+Suggests:
+    covr,
+    recipes,
+    testthat (>= 3.0.0),
+    tibble,
+    withr
+Config/testthat/edition: 3
+Encoding: UTF-8
+Config/roxygen2/version: 8.1.0

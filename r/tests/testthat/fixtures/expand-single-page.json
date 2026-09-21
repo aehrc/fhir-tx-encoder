@@ -1,0 +1,142 @@
+{
+  "resourceType": "ValueSet",
+  "url": "http://snomed.info/sct/32506021000036107/version/20260731?fhir_vs=ecl%2F%28%3E%3E+363346000%29",
+  "name": "SNOMED CT ECL expression",
+  "status": "active",
+  "experimental": false,
+  "copyright": "This value set includes content from SNOMED CT, which is copyright © 2002+ International Health Terminology Standards Development Organisation (IHTSDO), and distributed by agreement between IHTSDO and HL7. Implementer use of SNOMED CT is not covered by this agreement",
+  "expansion": {
+    "extension": [
+      {
+        "url": "http://hl7.org/fhir/StructureDefinition/valueset-unclosed",
+        "valueBoolean": true
+      }
+    ],
+    "identifier": "urn:uuid:2e28de76-f6ea-4115-9562-ef362b3a15d3",
+    "timestamp": "2026-08-15T20:28:38+10:00",
+    "total": 6,
+    "offset": 0,
+    "parameter": [
+      {
+        "name": "used-codesystem",
+        "valueUri": "http://snomed.info/sct|http://snomed.info/sct/32506021000036107/version/20260731"
+      },
+      {
+        "name": "version",
+        "valueUri": "http://snomed.info/sct|http://snomed.info/sct/32506021000036107/version/20260731"
+      },
+      {
+        "name": "offset",
+        "valueInteger": 0
+      },
+      {
+        "name": "count",
+        "valueInteger": 50000
+      }
+    ],
+    "contains": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "404684003",
+        "display": "Clinical finding"
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "64572001",
+        "display": "Disease"
+      },
+      {
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-ValueSet.expansion.contains.property",
+            "extension": [
+              {
+                "url": "code",
+                "valueCode": "609096000"
+              },
+              {
+                "url": "subproperty",
+                "extension": [
+                  {
+                    "url": "code",
+                    "valueCode": "116676008"
+                  },
+                  {
+                    "url": "value",
+                    "valueCode": "1240414004"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "system": "http://snomed.info/sct",
+        "code": "363346000",
+        "display": "Malignant neoplastic disease"
+      },
+      {
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-ValueSet.expansion.contains.property",
+            "extension": [
+              {
+                "url": "code",
+                "valueCode": "609096000"
+              },
+              {
+                "url": "subproperty",
+                "extension": [
+                  {
+                    "url": "code",
+                    "valueCode": "116676008"
+                  },
+                  {
+                    "url": "value",
+                    "valueCode": "400177003"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "system": "http://snomed.info/sct",
+        "code": "399981008",
+        "display": "Neoplasm and/or hamartoma"
+      },
+      {
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-ValueSet.expansion.contains.property",
+            "extension": [
+              {
+                "url": "code",
+                "valueCode": "609096000"
+              },
+              {
+                "url": "subproperty",
+                "extension": [
+                  {
+                    "url": "code",
+                    "valueCode": "116676008"
+                  },
+                  {
+                    "url": "value",
+                    "valueCode": "108369006"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "system": "http://snomed.info/sct",
+        "code": "55342001",
+        "display": "Neoplastic disease"
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "138875005",
+        "display": "SNOMED CT Concept"
+      }
+    ]
+  }
+}

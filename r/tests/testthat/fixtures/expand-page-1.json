@@ -1,0 +1,93 @@
+{
+  "resourceType": "ValueSet",
+  "url": "http://snomed.info/sct/32506021000036107/version/20260731?fhir_vs=ecl%2F%28%3E%3E+363346000%29",
+  "name": "SNOMED CT ECL expression",
+  "status": "active",
+  "experimental": false,
+  "expansion": {
+    "identifier": "urn:uuid:9f1bd2ec-1f2a-4f0e-9a3f-0c1f2b3a4d51",
+    "timestamp": "2026-08-15T20:28:38+10:00",
+    "total": 6,
+    "offset": 0,
+    "parameter": [
+      {
+        "name": "offset",
+        "valueInteger": 0
+      },
+      {
+        "name": "count",
+        "valueInteger": 4
+      }
+    ],
+    "contains": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "404684003",
+        "display": "Clinical finding"
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "64572001",
+        "display": "Disease"
+      },
+      {
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-ValueSet.expansion.contains.property",
+            "extension": [
+              {
+                "url": "code",
+                "valueCode": "609096000"
+              },
+              {
+                "url": "subproperty",
+                "extension": [
+                  {
+                    "url": "code",
+                    "valueCode": "116676008"
+                  },
+                  {
+                    "url": "value",
+                    "valueCode": "1240414004"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "system": "http://snomed.info/sct",
+        "code": "363346000",
+        "display": "Malignant neoplastic disease"
+      },
+      {
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-ValueSet.expansion.contains.property",
+            "extension": [
+              {
+                "url": "code",
+                "valueCode": "609096000"
+              },
+              {
+                "url": "subproperty",
+                "extension": [
+                  {
+                    "url": "code",
+                    "valueCode": "116676008"
+                  },
+                  {
+                    "url": "value",
+                    "valueCode": "400177003"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "system": "http://snomed.info/sct",
+        "code": "399981008",
+        "display": "Neoplasm and/or hamartoma"
+      }
+    ]
+  }
+}

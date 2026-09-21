@@ -1,4 +1,21 @@
-/build/
-/fhir_tx_encoder.egg-info/
+# Python artefacts. The package moved to python/, so these are no longer
+# anchored at the repository root.
+python/build/
+python/dist/
+python/*.egg-info/
+__pycache__/
+.venv/
 Pipfile
 Pipfile.lock
+
+# R artefacts.
+.Rproj.user/
+.Rhistory
+r/*.tar.gz
+*.Rcheck/
+
+# Editor state.
+.idea/
+
+# Matrix Market exports.
+*.mtx

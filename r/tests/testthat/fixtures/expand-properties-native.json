@@ -1,0 +1,145 @@
+{
+  "resourceType": "ValueSet",
+  "url": "http://snomed.info/sct/32506021000036107/version/20260731?fhir_vs=ecl%2F%28%3E%3E+363346000%29",
+  "name": "SNOMED CT ECL expression",
+  "status": "active",
+  "experimental": false,
+  "expansion": {
+    "identifier": "urn:uuid:2b3c4d5e-6f7a-4b8c-9d0e-1f2a3b4c5d6e",
+    "timestamp": "2026-08-15T20:28:38+10:00",
+    "total": 5,
+    "offset": 0,
+    "parameter": [
+      {
+        "name": "offset",
+        "valueInteger": 0
+      },
+      {
+        "name": "count",
+        "valueInteger": 50000
+      }
+    ],
+    "contains": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "363346000",
+        "display": "Malignant neoplastic disease",
+        "property": [
+          {
+            "code": "609096000",
+            "extension": [
+              {
+                "url": "subproperty",
+                "extension": [
+                  {
+                    "url": "code",
+                    "valueCode": "116676008"
+                  },
+                  {
+                    "url": "value",
+                    "valueCode": "1240414004"
+                  }
+                ]
+              },
+              {
+                "url": "subproperty",
+                "extension": [
+                  {
+                    "url": "code",
+                    "valueCode": "363698007"
+                  },
+                  {
+                    "url": "value",
+                    "valueCode": "39937001"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "399981008",
+        "display": "Neoplasm and/or hamartoma",
+        "property": [
+          {
+            "code": "609096000",
+            "extension": [
+              {
+                "url": "subproperty",
+                "extension": [
+                  {
+                    "url": "code",
+                    "valueCode": "116676008"
+                  },
+                  {
+                    "url": "value",
+                    "valueCode": "108369006"
+                  },
+                  {
+                    "url": "subproperty",
+                    "extension": [
+                      {
+                        "url": "code",
+                        "valueCode": "363698007"
+                      },
+                      {
+                        "url": "value",
+                        "valueCode": "39937001"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "55342001",
+        "display": "Neoplastic disease",
+        "property": [
+          {
+            "code": "116676008",
+            "valueCode": "108369006"
+          },
+          {
+            "code": "parent",
+            "valueCode": "64572001"
+          },
+          {
+            "code": "child",
+            "valueCode": "363346000"
+          }
+        ]
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "64572001",
+        "display": "Disease",
+        "property": [
+          {
+            "code": "severityScore",
+            "valueDecimal": 2.5
+          }
+        ]
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "404684003",
+        "display": "Clinical finding",
+        "property": [
+          {
+            "valueCode": "108369006"
+          },
+          {
+            "code": "parent",
+            "valueCode": "138875005"
+          }
+        ]
+      }
+    ]
+  }
+}
