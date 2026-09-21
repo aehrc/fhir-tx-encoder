@@ -22,10 +22,10 @@ Depends:
     R (>= 4.1)
 Imports:
     httr2,
+    jsonlite,
     Matrix
 Suggests:
     covr,
-    jsonlite,
     recipes,
     testthat (>= 3.0.0),
     tibble,

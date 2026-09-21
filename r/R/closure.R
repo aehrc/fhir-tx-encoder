@@ -99,17 +99,22 @@ subsumption_pairs <- function(concept_map) {
 
 #' Post a Parameters body to the `$closure` endpoint.
 #'
+#' The body is serialised here rather than by `httr2::req_body_json()`: that
+#' function walks every node of the body at perform time looking for obfuscated
+#' secrets, which on a 50,000 concept update costs more R time than the server
+#' takes to answer.
+#'
 #' @param tx_url A FHIR terminology server endpoint.
 #' @param body The Parameters resource, as a list.
 #' @return The parsed response body.
 #' @noRd
 closure_request <- function(tx_url, body) {
-  request <- httr2::req_body_json(
+  request <- httr2::req_body_raw(
     httr2::req_headers(
       httr2::request(paste0(tx_url, "/$closure")),
       Accept = "application/fhir+json"
     ),
-    body,
+    jsonlite::toJSON(body, auto_unbox = TRUE, null = "null"),
     type = "application/fhir+json"
   )
   httr2::resp_body_json(httr2::req_perform(request), simplifyVector = FALSE)
